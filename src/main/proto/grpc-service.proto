@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.grpc.v1.grpc";
+
+package com.grpc;
+
+service UserService {
+  rpc create(UserReq) returns (UserRes) {}
+  rpc getAll(EmptyReq) returns (UserResList) {}
+  rpc getAllServerStream(EmptyReq) returns (stream UserRes) {}
+}
+
+service DocumentService {
+  rpc createDocument(DocumentReq) returns (DocumentRes) {}
+  rpc getAllDocumentResList(EmptyReq) returns (DocumentResList) {}
+  rpc getAllServerDocumentResStream(EmptyReq) returns (stream DocumentRes) {}
+}
+
+message EmptyReq {}
+
+message UserReq {
+  string name = 1;
+  string email = 2;
+  DocumentReq documentReq = 3;
+}
+
+message UserRes {
+  int64 id = 1;
+  string name = 2;
+  string email = 3;
+  DocumentResList documentResList = 4;
+}
+
+message DocumentRes {
+  int64 id = 1;
+  string name = 2;
+  string data = 3;
+  int64 userId = 4;
+}
+
+message DocumentReq {
+  string name = 1;
+  string data = 2;
+  int64 userId = 3;
+}
+
+message DocumentResList {
+  repeated DocumentRes documents = 1;
+}
+
+message UserResList {
+  repeated UserRes users = 1;
+}
